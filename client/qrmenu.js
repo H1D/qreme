@@ -1,8 +1,8 @@
 Orders = new Meteor.Collection("orders");
 Meals = new Meteor.Collection("meals");
 
-// we need all this stuff
-Meteor.autosubscribe(function () {
+
+function load_order() {
   if(Meteor.status().status === 'connected') {
     // get order for this table or create a new one
     table_id = Session.get("table_id")
@@ -10,6 +10,7 @@ Meteor.autosubscribe(function () {
     if( table_id && order === undefined  ) {
       order_id = Orders.insert({
               status: "progress",
+              anger:0,
               table: table_id,
               meals: [],
               ts: (new Date()).getTime()});
@@ -18,7 +19,7 @@ Meteor.autosubscribe(function () {
       Session.set("order_id", order._id);
     }
   }
-});
+}
 
 function get_client_type() {
   return Session.get("view_type");
@@ -32,6 +33,28 @@ Template.main.is_manager = function() {
 Template.main.is_table = function() {
    return 'table' === get_client_type();
 };
+
+Template.menu.is_waiting = function () {
+  return undefined != Orders.findOne({table:Session.get("table_id"),status:"approved"});
+}
+
+Template.menu.is_cart_free = function () {
+  return undefined != Orders.findOne({table:Session.get("table_id"),status:"approved"});
+}
+
+Template.menu.events = {
+    'click button.anger': function (e) {
+     Orders.update({table:Session.get("table_id")},
+                   {$inc:{anger:1}},
+                   {multi:true});
+      var $btn = $(e.target);
+      $btn.attr('disabled','disabled');
+      setTimeout(function () {
+        $btn.removeAttr('disabled');
+      },1000*5)
+
+    }
+  };
 
 Template.cart.meals = function() {
   var order = Orders.findOne({_id:Session.get("order_id")});
@@ -92,32 +115,53 @@ Template.meals.events = {
   };
 
 Template.cart.events = {
-    'click button': function () {
+    'click button.submit': function () {
      Orders.update({_id:Session.get("order_id")},
                    {$set:{status:"approved"}});
 
       Session.set("order_id",null);
+      load_order();
     }
-  };
-      
+  };   
 
 ///////////// ROUTING ////////////////
 var Router = Backbone.Router.extend({
   routes: {
     "table/:table_id":   "table", // столик (/table/23)
-    "manager":         "manager"  // для манагера (/manager)
+    "manager":         "manager",  // для манагера (/manager)
+    "menu": "menu_edit"  // для манагера
   },
 
   table: function(table_id) {
     Session.set("view_type", 'table');
     Session.set("table_id", table_id);
+    Meteor.subscribe('orders',load_order);
   },
 
   manager: function() {
-     Session.set("view_type", 'manager');
+    Session.set("view_type", 'manager');
+  },
+
+  menu_edit:function () {
+    Session.set("view_type", 'menu_edit');
   }
 });
 var router = new Router;
 Meteor.startup(function () {
   Backbone.history.start({pushState: true});
 });
+
+///////////// UPDATES ////////////////
+Storage.prototype.setObject = function(key, value) {
+    this.setItem(key, JSON.stringify(value));
+}
+
+Storage.prototype.getObject = function(key) {
+    var value = this.getItem(key);
+    return value && JSON.parse(value);
+}
+
+///////////// SHIT ////////////////
+function get_meal_name (uid) {
+  return  Meals.findOne(uid).name
+}

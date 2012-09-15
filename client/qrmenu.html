@@ -8,27 +8,43 @@
 
 <template name="main">
   {{#if is_manager}}
-    {{> orders}}
+    <div class="well kitchen-page">
+        {{> orders}}
+    </div>
   {{/if}}
+
+  {{#if is_menu_edit}}
+   <div class="well kitchen-page">
+        {{> menu_edit}}
+    </div>
+   {{/if}}  
   
   {{#if is_table}}
     {{> menu}}
-  {{/if}}  
+  {{/if}} 
+
+
 </template>
 
 <template name="orders">
   <h2>Orders</h2>
-  {{#each orders}}
-    {{> order}}
-  {{/each}}
+  <table class="table">
+      {{#each orders}}
+         {{> order}}
+      {{/each}}
+  <table class="table">
 </template>
 
 
 <template name="menu">
   {{> meals}}
   {{> cart}}
+  {{#if is_waiting}}
+  {{#constant}}
+    <button class="anger">Why so long?</button>
+    {{/constant}}
+  {{/if}}
 </template>
-
 
 <template name="meals">
   <h2>Menu</h2>
@@ -41,25 +57,49 @@
 
 
 <template name="cart">
-  <h2>Cart</h2>
+  <h2>Cart {{#if total}}{{total}}${{/if}}</h2>
   <div>
       {{#each meals}}
         {{> cart_item}}
       {{/each}}
 
-      {{#if total}}
-        {{total}}
-      {{/if}}
+      
   </div>
   <button class="submit">OK</button>
 </template>
 
+<template name="menu_edit">
+  {{> meals_edit}}
+</template>
+
+<template name="meals_edit">
+  <h2>Edit menu</h2>
+  <table class="table">
+      {{#each meals}}
+        {{> meal_edit}} 
+      {{/each}}
+  </table>
+</template>
+
+<template name="meal_edit">
+      <tr class="order anger{{anger}}">
+        <td>{{name}}</td>
+        <td>
+            {{#if enabled}}
+                <button class="btn block btn-danger">Block</button>
+            {{else}}
+                <button class="btn enable btn-success">Enable</button>
+            {{/if}}
+          </td> 
+    </tr>
+</template>
+
 
 <template name="order">
-    <div>
-        {{meals_count}} meals
-        [table#{{table}}]
-    </div>
+    <tr class="order anger{{anger}}">
+        <td>{{meals_count}} meals
+        [table#{{table}}]</td> 
+    </tr>
 </template>
 
 
@@ -69,5 +109,5 @@
 
 
 <template name="meal">
-    <div class="meal" data-id="{{_id}}">{{name}}</div> 
+    <div class="meal" data-id="{{_id}}">{{name}} {{price}}$</div> 
 </template>
