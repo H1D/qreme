@@ -1,0 +1,73 @@
+<head>
+  <title>qreme</title>
+</head>
+
+<body>
+  {{> main}}
+</body>
+
+<template name="main">
+  {{#if is_manager}}
+    {{> orders}}
+  {{/if}}
+  
+  {{#if is_table}}
+    {{> menu}}
+  {{/if}}  
+</template>
+
+<template name="orders">
+  <h2>Orders</h2>
+  {{#each orders}}
+    {{> order}}
+  {{/each}}
+</template>
+
+
+<template name="menu">
+  {{> meals}}
+  {{> cart}}
+</template>
+
+
+<template name="meals">
+  <h2>Menu</h2>
+  <div>
+      {{#each meals}}
+        {{> meal}}
+      {{/each}}
+  </div>
+</template>
+
+
+<template name="cart">
+  <h2>Cart</h2>
+  <div>
+      {{#each meals}}
+        {{> cart_item}}
+      {{/each}}
+
+      {{#if total}}
+        {{total}}
+      {{/if}}
+  </div>
+  <button class="submit">OK</button>
+</template>
+
+
+<template name="order">
+    <div>
+        {{meals_count}} meals
+        [table#{{table}}]
+    </div>
+</template>
+
+
+<template name="cart_item">
+    <div class="meal" data-id="{{.}}">{{name}}[{{count}}]</div> 
+</template>
+
+
+<template name="meal">
+    <div class="meal" data-id="{{_id}}">{{name}}</div> 
+</template>
