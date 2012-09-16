@@ -3,19 +3,18 @@ Template.main.is_menu_edit = function() {
 };
 
 Template.meals_edit.meals = function () {
-  return Meals.find({},{sort: {enabled: -1}});
+  return Meals.find();
 };
 
-Template.menu.events = {
-    'click button.anger': function (e) {
-     Orders.update({table:Session.get("table_id")},
-                   {$inc:{anger:1}},
-                   {multi:true});
-      var $btn = $(e.target);
-      $btn.attr('disabled','disabled');
-      setTimeout(function () {
-        $btn.removeAttr('disabled');
-      },1000*5)
-
+Template.meal_edit.events = {
+    'click button.block': function (e) {
+      	var id = $(e.target).data('id');
+     	Meals.update(id,
+                   {$set:{enabled:false}});
+    },
+    'click button.enable': function (e) {
+      	var id = $(e.target).data('id');
+     	Meals.update(id,
+                   {$set:{enabled:true}});
     }
   };

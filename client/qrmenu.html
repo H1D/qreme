@@ -1,5 +1,15 @@
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0"> 
   <title>qreme</title>
+    <script type="text/javascript">
+      $( document ).bind( "mobileinit", function( event, data ){
+          $.mobile.autoInitializePage = false;
+          $.mobile.pushStateEnabled = false;
+          $.mobile.hashListeningEnabled = false;
+          $.mobile.defaultPageTransition = 'none';
+          $.fx.off = true;
+      }); 
+  </script>
 </head>
 
 <body>
@@ -17,7 +27,7 @@
    <div class="well kitchen-page">
         {{> menu_edit}}
     </div>
-   {{/if}}  
+   {{/if}}   
   
   {{#if is_table}}
     {{> menu}}
@@ -37,35 +47,143 @@
 
 
 <template name="menu">
+  {{> categories}}
   {{> meals}}
-  {{> cart}}
-  {{#if is_waiting}}
-  {{#constant}}
-    <button class="anger">Why so long?</button>
-    {{/constant}}
-  {{/if}}
+  {{> cart}}   
 </template>
 
 <template name="meals">
-  <h2>Menu</h2>
-  <div>
-      {{#each meals}}
-        {{> meal}}
-      {{/each}}
+  <div data-role="page" id="meals">
+    <div data-role="header">
+      <h4>Meals</h4>
+    </div> 
+      
+    <div data-role="content">
+      <div data-role="collapsible-set" data-mini="true">
+        {{>meals_list}}
+      </div> 
+    </div> 
+    
+    <div data-role="footer" class="ui-bar">
+      {{>footer}}
+    </div> 
   </div>
 </template>
 
 
+<template name="footer">
+  {{#constant}}
+    <a onclick="to_page('cat_page')"   data-inline="true" data-role="button" data-icon="arrow-l" >Back</a>
+  {{/constant}}
+  <a  data-icon="grid" onclick="to_page('cart_page')"  data-inline="true" data-role="button">Order {{order_count}}</a>
+  
+
+  {{#if is_waiting}}
+    {{#constant}}
+        <a class="anger" data-icon="alert" data-inline="true" data-role="button" data-theme="e">It's so slow</a>
+      {{/constant}}
+  {{/if}}
+
+  <a  data-icon="forward"  data-inline="true" data-role="button">Call waiter</a>
+  
+</template>  
+
 <template name="cart">
-  <h2>Cart {{#if total}}{{total}}${{/if}}</h2>
-  <div>
-      {{#each meals}}
-        {{> cart_item}}
-      {{/each}}
+  <div data-role="page" id="cart_page">
+    <div data-role="header">
+      <h4>Cart</h4>
+    </div> 
+    
+    <div data-role="content">
+      <ul data-role="listview">
+        {{#each meals}}
+          {{> cart_item}}
+        {{/each}}
+      </ul>
 
       
+
+  
+      <br>
+      <div class="ui-body ui-body-a">
+        
+        <h5>Usually ordered with</h5>
+        <div class="ui-grid-b">
+              <div class="ui-block-a cart-sugg-item" data-id="b5e9a2a6-35ca-4636-8825-8cb8f9efd795">
+              <input value="b5e9a2a6-35ca-4636-8825-8cb8f9efd795" type="hidden">
+              <img src="/rice.jpg" width="96px" height="96px" data-id="b5e9a2a6-35ca-4636-8825-8cb8f9efd795">
+              <br data-id="b5e9a2a6-35ca-4636-8825-8cb8f9efd795">
+              <span data-id="b5e9a2a6-35ca-4636-8825-8cb8f9efd795">Rice</span>
+            </div>
+                      
+                        <div class="ui-block-b cart-sugg-item" data-id="bb8680cf-3e69-4d87-ab38-036bea5ae01a">
+              <input value="bb8680cf-3e69-4d87-ab38-036bea5ae01a" type="hidden">
+              <img src="/macaroni.jpg" width="96px" height="96px" data-id="bb8680cf-3e69-4d87-ab38-036bea5ae01a">
+              <br data-id="bb8680cf-3e69-4d87-ab38-036bea5ae01a">
+              <span data-id="bb8680cf-3e69-4d87-ab38-036bea5ae01a">Macaroni</span>
+            </div>
+                      
+                        <div class="ui-block-c cart-sugg-item" data-id="e2410339-f76e-4750-9858-b78ccf677153">
+              <input value="e2410339-f76e-4750-9858-b78ccf677153" type="hidden">
+              <img src="/buckwheat.jpg" width="96px" height="96px" data-id="e2410339-f76e-4750-9858-b78ccf677153">
+              <br data-id="e2410339-f76e-4750-9858-b78ccf677153">
+              <span data-id="e2410339-f76e-4750-9858-b78ccf677153">Buckwheat</span>
+            </div>
+        </div>
+      </div>
+   
+
+      {{#if is_cart_not_empty}}
+      <br>
+        <div data-role="fieldcontain" class="ui-hide-label">
+
+          <a data-role="button" class="submit" data-theme='b' data-icon="check">Order {{#if total}}{{total}}${{/if}}</a>
+          
+        </div>
+      {{/if}}
+    </div> 
+    
+    <div data-role="footer" class="ui-bar">
+      {{>footer}}
+    </div> 
   </div>
-  <button class="submit">OK</button>
+</template>
+
+
+<template name="categories">
+  <div data-role="page" id="cat_page">
+    <div data-role="header">
+      <h4>Garage48 Cafe</h4>
+    </div> 
+    
+    <div data-role="content">
+      <div data-role="controlgroup" data-mini="true">
+        {{>categories_list}}
+      </div>
+
+      {{#if repeated_user}}
+      <br>
+        <div data-role="controlgroup" data-mini="true"> 
+          <a class="usual" data-role="button" data-icon="arrow-r" data-iconpos="right">
+            As usual</a>
+        </div>
+      {{/if}}
+    </div>
+
+    <div data-role="footer" class="ui-bar">
+       {{>footer}}
+    </div> 
+  </div>
+</template>
+ 
+ 
+<template name="categories_list">
+  {{#each categories}}
+    <a  class="menu-category" data-role="button" data-icon="arrow-r" data-iconpos="right">
+     {{.}}
+     <input type='hidden' value="{{.}}">
+   </a>
+  {{/each}}
 </template>
 
 <template name="menu_edit">
@@ -86,28 +204,65 @@
         <td>{{name}}</td>
         <td>
             {{#if enabled}}
-                <button class="btn block btn-danger">Block</button>
+                <button class="btn block btn-danger" data-id="{{_id}}">Block</button>
             {{else}}
-                <button class="btn enable btn-success">Enable</button>
+                <button class="btn enable btn-success" data-id="{{_id}}">Enable</button>
             {{/if}}
-          </td> 
+        </td> 
     </tr>
 </template>
 
 
 <template name="order">
     <tr class="order anger{{anger}}">
-        <td>{{meals_count}} meals
-        [table#{{table}}]</td> 
+      <td>
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo{{_id}}">
+          {{meals_count}} meals
+        [table#{{table}}]
+        </button>
+         
+        <div id="demo{{_id}}" class="collapse in">
+          <ul class="nav nav-tabs">
+          {{#each meals}}
+            <li>{{name}}</li>
+          {{/each}}
+          </ul>
+          
+        </div>
+
+      </td> 
     </tr>
 </template>
-
+ 
 
 <template name="cart_item">
-    <div class="meal" data-id="{{.}}">{{name}}[{{count}}]</div> 
+  <li class="meal" data-id="{{.}}">
+    {{name}}
+    <span class="ui-li-count">
+      {{count}}
+    </span>
+  </li>
+</template>
+
+<template name="cart_sugg_item">
+  <div class="ui-block-{{symb}} cart-sugg-item"  data-id="{{_id}}">
+    <input value={{_id}} type='hidden'>
+    <img src="{{img}}" width="96px" height="96px" data-id="{{_id}}"/>
+    <br data-id="{{_id}}">
+    <span data-id="{{_id}}">{{name}}</span>
+  </div>
 </template>
 
 
-<template name="meal">
-    <div class="meal" data-id="{{_id}}">{{name}} {{price}}$</div> 
+<template name="meals_list">
+  {{#each meals}}
+    <div data-role="collapsible" data-collapsed="true" data-content-theme="c" class="meals-list">
+      <h3>{{name}} {{price}}$</h3>
+      <img src="{{img}}" width="96px" height="96px"/>
+      <p class="description">{{description}}</p>
+      <p class="ingridients">{{#each ingridients}}{{.}},{{/each}}</p>
+      <div class="clear"></div>
+      <a data-role="button" data-inline="true" data-id="{{_id}}" class="meal">Add<input type='hidden' value="{{_id}}"></a>
+    </div> 
+  {{/each}}
 </template>
