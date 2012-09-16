@@ -22,18 +22,8 @@
 	background-color: #FF7070;
 }
 
-.order.anger6 {
-	background-color: #FF3B3B;
-}
-
-.order.anger6 {
-	background-color: #FF2121;
-}
-
-.order.anger7 {
-	background-color: #FF1212;
-}
-
+.order.anger6,
+.order.anger7,
 .order.anger8,
 .order.anger9,
 .order.anger10,
@@ -58,7 +48,7 @@
     animation-iteration-count: infinite;
     animation-timing-function: linear;
     display: block;
-	background-color: #FF1212;
+	background-color: #FF3B3B;
 }
 
 .kitchen-page {
@@ -73,15 +63,15 @@
 /*#//////////////////////////*/
 @keyframes shake {
     0% { transform: translate(2px, 1px) rotate(0deg); }
-    10% { transform: translate(-1px, -2px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(1deg); }
     20% { transform: translate(-3px, 0px) rotate(0deg); }
     30% { transform: translate(0px, 2px) rotate(0deg); }
-    40% { transform: translate(1px, -1px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(-1deg); }
     50% { transform: translate(-1px, 2px) rotate(0deg); }
     60% { transform: translate(-3px, 1px) rotate(0deg); }
-    70% { transform: translate(2px, 1px) rotate(0deg); }
+    70% { transform: translate(2px, 1px) rotate(2deg); }
     80% { transform: translate(-1px, -1px) rotate(0deg); }
-    90% { transform: translate(2px, 2px) rotate(0deg); }
+    90% { transform: translate(2px, 2px) rotate(-2deg); }
     100% { transform: translate(1px, -2px) rotate(0deg); }
 }
 

@@ -38,11 +38,11 @@
 
 <template name="orders">
   <h2>Orders</h2>
-  <table class="table">
+  <div class="accordion" id="accordion2">
       {{#each orders}}
          {{> order}}
       {{/each}}
-  <table class="table">
+  <div>
 </template>
 
 
@@ -73,18 +73,18 @@
 
 <template name="footer">
   {{#constant}}
-    <a onclick="to_page('cat_page')"   data-inline="true" data-role="button" data-icon="arrow-l" >Back</a>
+    <a onclick="to_page('cat_page')"   data-mini="true" data-inline="true" data-role="button" data-icon="arrow-l" >Back</a>
   {{/constant}}
-  <a  data-icon="grid" onclick="to_page('cart_page')"  data-inline="true" data-role="button">Order {{order_count}}</a>
+  <a  data-icon="grid"  data-mini="true" onclick="to_page('cart_page')"  data-inline="true" data-role="button">Order {{order_count}}</a>
   
 
   {{#if is_waiting}}
     {{#constant}}
-        <a class="anger" data-icon="alert" data-inline="true" data-role="button" data-theme="e">It's so slow</a>
+        <a class="anger"  data-mini="true" data-icon="alert" data-inline="true" data-role="button" data-theme="e">It's so slow</a>
       {{/constant}}
   {{/if}}
 
-  <a  data-icon="forward"  data-inline="true" data-role="button">Call waiter</a>
+  <a  data-icon="forward"  data-mini="true" data-inline="true" data-role="button">Call waiter</a>
   
 </template>  
 
@@ -214,24 +214,22 @@
 
 
 <template name="order">
-    <tr class="order anger{{anger}}">
-      <td>
-        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo{{_id}}">
-          {{meals_count}} meals
-        [table#{{table}}]
-        </button>
-         
-        <div id="demo{{_id}}" class="collapse in">
-          <ul class="nav nav-tabs">
-          {{#each meals}}
-            <li>{{name}}</li>
-          {{/each}}
-          </ul>
-          
+    <div class="accordion-group order anger{{anger}}">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne{{_id}}">
+          {{meals_count}} meals [table#{{table}}]
+        </a>
+      </div>
+      <div id="collapseOne{{_id}}" class="accordion-body collapse">
+        <div class="accordion-inner">
+            <ul>
+              {{#each meals}}
+               <li>{{name}}</li> 
+              {{/each}}
+            </ul>
         </div>
-
-      </td> 
-    </tr>
+      </div>
+    </div>
 </template>
  
 

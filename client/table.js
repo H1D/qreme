@@ -171,12 +171,13 @@ Template.meals.events = {
 Template.cart.events = {
     'click .submit': function () {
      Orders.update({_id:Session.get("order_id")},
-                   {$set:{status:"approved",anger:0}});
-
-     Session.set("order_id",null);
-
-     localStorage.setObject('prev_order',
-      _.pluck(Orders.findOne(Session.get("order_id")).meals,'_id'));
+                   {$set:{status:"approved",anger:0}},
+                   function () {
+                      localStorage.setObject('prev_order',
+                      _.pluck(Orders.findOne(Session.get("order_id")).meals,'_id'));
+                      // window.location = window.location+'1';
+                      setTimeout(function () {to_page( 'cat_page' );},300); 
+                   });
    }
   };   
 
@@ -189,7 +190,7 @@ Template.footer.events = {
       $btn.addClass('ui-disabled');
       setTimeout(function () {
         $btn.removeClass('ui-disabled');
-      },200*5)
+      },300*5)
 
     }
   };
@@ -210,10 +211,10 @@ Template.categories.events = {
       meals.forEach(function (meal) {
           Orders.update({_id:order_id},
                     {$push:{meals: meal},$inc:{meals_count:1}});
-        
       });
 
       Session.set("order_id", order_id);
+      setTimeout(function () {to_page( 'cart_page' );},300); 
     }
 }
 
