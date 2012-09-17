@@ -1,0 +1,25 @@
+html {
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-user-select: none;
+}
+
+.menu-category:first-letter {
+    text-transform: uppercase;
+}
+
+.meals-list img{
+        float:left;
+    }
+
+    .meals-list p{
+        margin-left: 110px;
+    }
+
+    .meals-list p.ingridients {
+        font-style: italic;
+        color:gray;
+    }
+
+    .meals-list > div {
+    	padding:.4em;
+    }
