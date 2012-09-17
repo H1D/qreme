@@ -19,7 +19,9 @@ var Router = Backbone.Router.extend({
   table: function(table_id) {
     Session.set("view_type", 'table');
     Session.set("table_id", table_id);
+   
     Meteor.flush();
+     load_iui();
     Meteor.subscribe('orders',load_order);
   },
 
@@ -49,4 +51,17 @@ Storage.prototype.getObject = function(key) {
 ///////////// SHIT ////////////////
 function get_meal_name (uid) {
   return  Meals.findOne(uid).name
+}
+
+function load_iui() {
+  if ($('.wysiwyg_editor')) {
+    $("head").append("<link>");
+    css = $("head").children(":last");
+    css.attr({
+      rel:  "stylesheet",
+      type: "text/css",
+      href: "iui.css"
+    });
+    $.getScript("iui.js");
+  }
 }

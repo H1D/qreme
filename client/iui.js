@@ -563,6 +563,10 @@ determine what to do:
 addEventListener("click", function(event)
 {
 	var link = findParent(event.target, "a");
+	if (iui.hasClass(link,'iui-omit')) {
+		return;
+	}
+
 	if (link)
 	{
 		function unselect() { link.removeAttribute("selected"); }
