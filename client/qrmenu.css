@@ -22,6 +22,21 @@
 	background-color: #FF7070;
 }
 
+.fucking-right {
+    float: right;
+    clear: both;
+    position: relative;
+    bottom: 77px;
+}
+
+.ffucking-right {
+    float: right;
+    clear: both;
+    position: relative;   
+    right: 12px;
+}
+
+
 .order.anger6,
 .order.anger7,
 .order.anger8,

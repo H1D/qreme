@@ -1,5 +1,6 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0"> 
+
   <title>qreme</title>
     <script type="text/javascript">
       $( document ).bind( "mobileinit", function( event, data ){
@@ -72,20 +73,21 @@
 
 
 <template name="footer">
-  {{#constant}}
-    <a onclick="to_page('cat_page')"   data-mini="true" data-inline="true" data-role="button" data-icon="arrow-l" >Back</a>
-  {{/constant}}
-  <a  data-icon="grid"  data-mini="true" onclick="to_page('cart_page')"  data-inline="true" data-role="button">Order {{order_count}}</a>
-  
-
-  {{#if is_waiting}}
+  <div data-role="controlgroup" data-mini="true" data-type="horizontal">
     {{#constant}}
-        <a class="anger"  data-mini="true" data-icon="alert" data-inline="true" data-role="button" data-theme="e">It's so slow</a>
-      {{/constant}}
-  {{/if}}
+      <a onclick="to_page('cat_page')"   data-mini="true" data-inline="true" data-role="button" data-icon="arrow-l" >Back</a>
+    {{/constant}}
 
-  <a  data-icon="forward"  data-mini="true" data-inline="true" data-role="button">Call waiter</a>
-  
+    {{#if is_waiting}}
+      {{#constant}}
+          <a class="anger"  data-mini="true" data-icon="alert" data-inline="true" data-role="button" data-theme="e">Why so long?</a>
+        {{/constant}}
+    {{/if}}
+
+    <a  data-icon="star"  data-mini="true" data-inline="true" data-role="button">Ask waiter</a>
+
+        <a  data-icon="check"  data-mini="true" onclick="to_page('cart_page')"  data-inline="true" data-role="button">Order {{order_count}}</a>
+  </div>
 </template>  
 
 <template name="cart">
@@ -100,9 +102,6 @@
           {{> cart_item}}
         {{/each}}
       </ul>
-
-      
-
   
       <br>
       <div class="ui-body ui-body-a">
@@ -137,13 +136,13 @@
       <br>
         <div data-role="fieldcontain" class="ui-hide-label">
 
-          <a data-role="button" class="submit" data-theme='b' data-icon="check">Order {{#if total}}{{total}}${{/if}}</a>
+          <a data-role="button" class="submit" data-theme='b' data-icon="check">Order {{#if total}}{{total}}&#8364;{{/if}}</a>
           
         </div>
       {{/if}}
     </div> 
     
-    <div data-role="footer" class="ui-bar">
+    <div data-role="footer" class="ui-bar" data-position="fixed" data-fullscreen="true">
       {{>footer}}
     </div> 
   </div>
@@ -153,7 +152,7 @@
 <template name="categories">
   <div data-role="page" id="cat_page">
     <div data-role="header">
-      <h4>Garage48 Cafe</h4>
+      <h4>Qreme cafe</h4>
     </div> 
     
     <div data-role="content">
@@ -255,12 +254,12 @@
 <template name="meals_list">
   {{#each meals}}
     <div data-role="collapsible" data-collapsed="true" data-content-theme="c" class="meals-list">
-      <h3>{{name}} {{price}}$</h3>
+      <h3>{{name}} <span class="ffucking-right">{{price}}&#8364;</span><div class="clear"></div></h3>
       <img src="{{img}}" width="96px" height="96px"/>
       <p class="description">{{description}}</p>
       <p class="ingridients">{{#each ingridients}}{{.}},{{/each}}</p>
       <div class="clear"></div>
-      <a data-role="button" data-inline="true" data-id="{{_id}}" class="meal">Add<input type='hidden' value="{{_id}}"></a>
+      <a data-role="button" data-inline="true" data-id="{{_id}}" class="meal fucking-right">Add<input type='hidden' value="{{_id}}"></a><div class="clear"></div>
     </div> 
   {{/each}}
 </template>
