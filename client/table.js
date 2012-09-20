@@ -23,7 +23,7 @@ Template.main.is_table = function() {
    return 'table' === get_client_type();
 };
 
-Template.toolbar.is_waiting = function () {
+Template.toolbar.is_awaiting = function () {
   return undefined != Orders.findOne({table:Session.get("table_id"),status:"approved"});
 }
 
@@ -120,12 +120,21 @@ Template.toolbar.order_count = function () {
 
 ///////////// EVENTS ////////////////
 Template.meals.events = {
-    'click .meal': function (e) {
-      var meal_id = $(e.target).data('id');
+    'click div': function (e) {
+      if($(e.target).is('[data-id]')) {
+        var meal_id = $(e.target).data('id');
+      } else {
+        var meal_id = $(e.target).closest('[data-id]').data('id');
+      }
+      
       var meal = Meals.findOne(meal_id)
-      var order_id = Session.get("order_id");
+      var order_id = Session.get("order_id");      
       Orders.update({_id:Session.get("order_id")},
                     {$push:{meals: meal},$inc:{meals_count:1}});
+
+      // hack iUI behavior
+      // _.delay(function(){$(e.target).attr('toggled',true)},100);
+
       e.preventDefault();
       return false;
     }
@@ -138,6 +147,8 @@ Template.cart.events = {
                    function () {
                       localStorage.setObject('prev_order',
                       _.pluck(Orders.findOne(Session.get("order_id")).meals,'_id'));
+                      Session.set("order_id",null);
+                      load_order();
                    });
    }
   };   

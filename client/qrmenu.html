@@ -56,8 +56,10 @@
   <div class="toolbar">
     <h1 id="pageTitle"></h1>
     <a id="backButton" class="button" href="#"></a>
-    <a class="button anger"  >Why so long?</a>
-    <a class="button submit" href="#order">Order {{order_count}}</a>
+    <a class="button button_r submit" href="#order">Order {{order_count}}</a>
+    {{#if is_awaiting}}
+      <a class="button button_r anger"  >Why so long?</a>    
+    {{/if}}
   </div>
 </template>  
 
@@ -66,6 +68,12 @@
     <fieldset>
       {{#each meals}}
         {{> cart_item}}
+      {{/each}}
+
+      {{^each meals}}
+        <p>
+          Meeh.. Pick some meals man!
+        </p>
       {{/each}}
     </fieldset>
   
@@ -148,12 +156,11 @@
 
 <template name="meals_list">
   {{#each meals}}
-    <div class="row toggle">
+    <div class="row toggle" data-id="{{_id}}">
       <h3>{{name}} <span>{{price}}&#8364;</span></h3>      
       <img src="{{img}}" width="96px" height="96px"/>
       <p class="description">{{description}}</p>
-      <p class="ingridients">{{#each ingridients}}{{.}},{{/each}}</p>
-      <a href="#" class="whiteButton meal iui-omit" data-id="{{_id}}">Add</a>
+      <p class="ingridients">{{#each ingridients}}{{.}},{{/each}}</p>    
     </div>
   {{/each}}
 </template>

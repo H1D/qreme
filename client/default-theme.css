@@ -84,9 +84,9 @@ body > .panel {
     background: #FFFFFF url(/iUI/default/toggle.png) repeat-x;
 }
 
-.toggle[toggled="true"] {
+/*.toggle[toggled="true"] {
     background: #194fdb url(/iUI/default/toggleOn.png) repeat-x;
-}
+}*/
 
 .thumb {
     background: #ffffff url(/iUI/default/thumb.png) repeat-x;

@@ -7,19 +7,48 @@ html {
     text-transform: uppercase;
 }
 
+.meals-list {    
+
+}
+
 .meals-list img{
         float:left;
     }
 
+    .meals-list h3{
+        font-size: 4mm;
+        line-height: 4mm;
+    }
+
     .meals-list p{
         margin-left: 110px;
+        font-size: 3mm;
+        line-height: 3mm;
     }
 
     .meals-list p.ingridients {
         font-style: italic;
         color:gray;
+        font-size: 3mm;
+
     }
 
     .meals-list > div {
-    	padding:.4em;
+    	padding:.2em;
     }
+
+    .meals-list a{
+        display: inline-block;
+        float:right;
+        font-size: 4mm;        
+    }
+
+body {
+    padding-right: 0 !important;
+    padding-left: 0 !important;    
+}
+
+.row {
+    margin-left: 0px !important;
+    padding:2mm !important;
+}

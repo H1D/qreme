@@ -103,6 +103,15 @@ body.landscape > .toolbar > h1 {
     background: none;
 }
 
+.button_r {
+    float:right;
+    position: relative;
+    marging:6px;
+    text-overflow: initial;
+    margin: 0 3px
+  }
+
+
 .blueButton {
     border-width: 0 5px;
 }
@@ -351,7 +360,8 @@ fieldset > .row:last-child {
 }
 
 .toggle[toggled="true"] {
-    border: 1px solid #143fae;
+    border: 1px solid #14AE3F;
+    box-shadow: 0 0 20mm 21px #94FFDE inset;
 }
 
 .toggleOn {
